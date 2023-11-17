@@ -2,7 +2,6 @@ module runner;
 
 import std.format;
 import std.process;
-import std.stdio;
 
 import requests;
 
@@ -17,8 +16,6 @@ string getInput(byte day);
 void runSolution(byte day)
 {
     string input = getInput(day);
-
-    writeln(input);
 
     switch (day)
     {
