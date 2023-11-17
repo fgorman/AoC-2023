@@ -1,0 +1,13 @@
+{
+	"authors": [
+		"Foster"
+	],
+	"copyright": "Copyright © 2023, Foster",
+	"dependencies": {
+		"darg": "~>0.1.0",
+		"requests": "~>2.1.1"
+	},
+	"description": "Advent of code using D language",
+	"license": "proprietary",
+	"name": "aoc-2023"
+}
