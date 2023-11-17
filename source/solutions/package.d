@@ -1,27 +1,49 @@
 module solutions;
 
-public import solutions.day1;
-public import solutions.day2;
-public import solutions.day3;
-public import solutions.day4;
-public import solutions.day5;
-public import solutions.day6;
-public import solutions.day7;
-public import solutions.day8;
-public import solutions.day9;
-public import solutions.day10;
-public import solutions.day11;
-public import solutions.day12;
-public import solutions.day13;
-public import solutions.day14;
-public import solutions.day15;
-public import solutions.day16;
-public import solutions.day17;
-public import solutions.day18;
-public import solutions.day19;
-public import solutions.day20;
-public import solutions.day21;
-public import solutions.day22;
-public import solutions.day23;
-public import solutions.day24;
-public import solutions.day25;
+import 
+    day1, day2, day3, day4, day5,
+    day6, day7, day8, day9, day10, 
+    day11, day12, day13, day14, day15, 
+    day16, day17, day18, day19, day20, 
+    day21, day22, day23, day24, day25;
+
+public class Solutions
+{
+    private void function(string)[byte] solutionsMap;
+
+    this()
+    {
+        solutionsMap = [
+            1: &day1.solution,
+            2: &day2.solution,
+            3: &day3.solution,
+            4: &day4.solution,
+            5: &day5.solution,
+            6: &day6.solution,
+            7: &day7.solution,
+            8: &day8.solution,
+            9: &day9.solution,
+            10: &day10.solution,
+            11: &day11.solution,
+            12: &day12.solution,
+            13: &day13.solution,
+            14: &day14.solution,
+            15: &day15.solution,
+            16: &day16.solution,
+            17: &day17.solution,
+            18: &day18.solution,
+            19: &day19.solution,
+            20: &day20.solution,
+            21: &day21.solution,
+            22: &day22.solution,
+            23: &day23.solution,
+            24: &day24.solution,
+            25: &day25.solution
+        ];
+    }
+
+    public void function(string) getDaysSolution(byte day)
+    {
+        return solutionsMap[day];
+    }
+}

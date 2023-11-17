@@ -1,6 +1,6 @@
-module solutions.day21;
+module day21;
 
-void day21_solution(string input)
+void solution(string input)
 {
     throw new Exception("Not implemented");
 }
