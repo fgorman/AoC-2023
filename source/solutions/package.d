@@ -1,3 +1,27 @@
 module solutions;
 
 public import solutions.day1;
+public import solutions.day2;
+public import solutions.day3;
+public import solutions.day4;
+public import solutions.day5;
+public import solutions.day6;
+public import solutions.day7;
+public import solutions.day8;
+public import solutions.day9;
+public import solutions.day10;
+public import solutions.day11;
+public import solutions.day12;
+public import solutions.day13;
+public import solutions.day14;
+public import solutions.day15;
+public import solutions.day16;
+public import solutions.day17;
+public import solutions.day18;
+public import solutions.day19;
+public import solutions.day20;
+public import solutions.day21;
+public import solutions.day22;
+public import solutions.day23;
+public import solutions.day24;
+public import solutions.day25;

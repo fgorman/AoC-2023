@@ -25,6 +25,78 @@ void runSolution(byte day)
         case 1:
             day1_solution(input);
             break;
+        case 2:
+            day2_solution(input);
+            break;
+        case 3:
+            day3_solution(input);
+            break;
+        case 4:
+            day4_solution(input);
+            break;
+        case 5:
+            day5_solution(input);
+            break;
+        case 6:
+            day6_solution(input);
+            break;
+        case 7:
+            day7_solution(input);
+            break;
+        case 8:
+            day8_solution(input);
+            break;
+        case 9:
+            day9_solution(input);
+            break;
+        case 10:
+            day10_solution(input);
+            break;
+        case 11:
+            day11_solution(input);
+            break;
+        case 12:
+            day12_solution(input);
+            break;
+        case 13:
+            day13_solution(input);
+            break;
+        case 14:
+            day14_solution(input);
+            break;
+        case 15:
+            day15_solution(input);
+            break;
+        case 16:
+            day16_solution(input);
+            break;
+        case 17:
+            day17_solution(input);
+            break;
+        case 18:
+            day18_solution(input);
+            break;
+        case 19:
+            day19_solution(input);
+            break;
+        case 20:
+            day20_solution(input);
+            break;
+        case 21:
+            day21_solution(input);
+            break;
+        case 22:
+            day22_solution(input);
+            break;
+        case 23:
+            day23_solution(input);
+            break;
+        case 24:
+            day24_solution(input);
+            break;
+        case 25:
+            day25_solution(input);
+            break;
         default:
             break;
     }
