@@ -7,43 +7,30 @@ import
     day16, day17, day18, day19, day20, 
     day21, day22, day23, day24, day25;
 
-public class Solutions
-{
-    private void function(string)[byte] solutionsMap;
-
-    this()
-    {
-        solutionsMap = [
-            1: &day1.solution,
-            2: &day2.solution,
-            3: &day3.solution,
-            4: &day4.solution,
-            5: &day5.solution,
-            6: &day6.solution,
-            7: &day7.solution,
-            8: &day8.solution,
-            9: &day9.solution,
-            10: &day10.solution,
-            11: &day11.solution,
-            12: &day12.solution,
-            13: &day13.solution,
-            14: &day14.solution,
-            15: &day15.solution,
-            16: &day16.solution,
-            17: &day17.solution,
-            18: &day18.solution,
-            19: &day19.solution,
-            20: &day20.solution,
-            21: &day21.solution,
-            22: &day22.solution,
-            23: &day23.solution,
-            24: &day24.solution,
-            25: &day25.solution
-        ];
-    }
-
-    public void function(string) getDaysSolution(byte day)
-    {
-        return solutionsMap[day];
-    }
-}
+public immutable void function(string)[] solutionFps = [
+    &day1.solution,
+    &day2.solution,
+    &day3.solution,
+    &day4.solution,
+    &day5.solution,
+    &day6.solution,
+    &day7.solution,
+    &day8.solution,
+    &day9.solution,
+    &day10.solution,
+    &day11.solution,
+    &day12.solution,
+    &day13.solution,
+    &day14.solution,
+    &day15.solution,
+    &day16.solution,
+    &day17.solution,
+    &day18.solution,
+    &day19.solution,
+    &day20.solution,
+    &day21.solution,
+    &day22.solution,
+    &day23.solution,
+    &day24.solution,
+    &day25.solution
+];

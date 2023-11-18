@@ -16,13 +16,11 @@ string getInput(byte day);
 
 void runSolution(byte day)
 {
-    Solutions s = new Solutions();
-
     writeln("Running solution for day ", day);
     
     string input = getInput(day);
 
-    s.getDaysSolution(day)(input);
+    solutionFps[day-1](input);
 }
 
 string getInput(byte day)
