@@ -8,7 +8,7 @@ int main(string[] args)
 	
 	if (opts.day < 1 || opts.day > 25) 
 	{
-		throw new Exception("Day must be between 1 and 30");
+		throw new Exception("Day must be between 1 and 25");
 	}
 
 	runSolution(opts.day);
