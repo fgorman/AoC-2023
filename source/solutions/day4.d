@@ -1,7 +1,6 @@
 module day4;
 
-import std.container : Array;
-import std.algorithm : canFind;
+import std.container : Array, redBlackTree;
 import std.conv : to;
 import std.regex : regex, matchAll;
 import std.string : splitLines, split, strip;
@@ -37,10 +36,10 @@ int part1(string input)
     {
         auto allNums = line.strip().split(": ")[1];
         auto winAndAttemptNums = allNums.strip().split(" | ");
-        ulong[] winningNums;
+        auto winningNums = redBlackTree!ulong();
         foreach (numStr ; matchAll(winAndAttemptNums[0], re))
         {
-            winningNums ~= numStr.hit.to!ulong;
+            winningNums.insert(numStr.hit.to!ulong);
         }
 
         ulong cardScore = 0;
@@ -48,7 +47,7 @@ int part1(string input)
         {
             ulong num = numStr.hit.to!ulong;
 
-            if (winningNums.canFind(num))
+            if (num in winningNums)
                 cardScore = cardScore == 0 ? 1 : cardScore * 2;
         }
 
@@ -71,17 +70,17 @@ int part2(string input)
         Card currCard;
         auto allNums = line.strip().split(": ")[1];
         auto winAndAttemptNums = allNums.strip().split(" | ");
-        ulong[] winningNums;
+        auto winningNums = redBlackTree!ulong();
         foreach (numStr ; matchAll(winAndAttemptNums[0], re))
         {
-            winningNums ~= numStr.hit.to!ulong;
+            winningNums.insert(numStr.hit.to!ulong);
         }
 
         foreach (numStr ; matchAll(winAndAttemptNums[1], re))
         {
             ulong num = numStr.hit.to!ulong;
 
-            if (winningNums.canFind(num))
+            if (num in winningNums)
                 currCard.numWins += 1;
         }
         cards ~= currCard;
