@@ -14,3 +14,4 @@ aoc-2023-test-*
 *.o
 *.obj
 *.lst
+*.txt
