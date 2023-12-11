@@ -4,6 +4,7 @@
 	],
 	"copyright": "Copyright © 2023, Foster",
 	"dependencies": {
+		"anansi": "~>0.0.4",
 		"darg": "~>0.1.0",
 		"requests": "~>2.1.1"
 	},

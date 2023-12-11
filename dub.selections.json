@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
+		"anansi": "0.0.4",
 		"automem": "0.6.9",
 		"cachetools": "0.4.1",
 		"darg": "0.1.0",
