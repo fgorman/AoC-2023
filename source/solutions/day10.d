@@ -1,7 +1,6 @@
 module day10;
 
 import std.algorithm.searching : canFind;
-import std.array : empty, popFront, front;
 import std.stdio : writeln;
 import std.string : splitLines;
 
@@ -27,6 +26,17 @@ immutable string testInput3 = "...........\n" ~
     ".L--JL--J.\n" ~
     "..........\n";
 
+immutable string testInput4 = ".F----7F7F7F7F-7....\n" ~
+    ".|F--7||||||||FJ....\n" ~
+    ".||.FJ||||||||L7....\n" ~
+    "FJL7L7LJLJ||LJ.L-7..\n" ~
+    "L--J.L7...LJS7F-7L7.\n" ~
+    "....F-J..F7FJ|L7L7L7\n" ~
+    "....L7.F7||L7|.L7L7|\n" ~
+    ".....|FJLJ|FJ|F7|.LJ\n" ~
+    "....FJL-7.||.||||...\n" ~
+    "....L---J.LJ.LJLJ...\n"; 
+
 int part1(string input);
 
 void solution(string input)
@@ -34,7 +44,7 @@ void solution(string input)
     int p1Solution = part1(input);
     writeln("Solution for part 1: ", p1Solution);
 
-    int p2Solution = part2(testInput3);
+    int p2Solution = part2(input);
     writeln("Solution for part 2: ", p2Solution);
 }
 
@@ -51,63 +61,55 @@ int[] getSource(char[][] sketch)
     assert(0);
 }
 
-bool[][] createAdjMatrix(char[][] sketch, int[][][char] reachability)
+char getSrcType(char[][] sketch, int[] src, int[][][char] reach)
 {
-    ulong numVertices = sketch.length * sketch[0].length;
-    bool[][] adj;
-    foreach (i ; 0..numVertices) adj ~= new bool[numVertices];
-
-    foreach (i, row ; sketch)
+    int[][] srcDirs;
+    foreach (i, diff ; [[-1, 0], [1, 0], [0, -1], [0, 1]])
     {
-        foreach(j, c ; row)
+        int cmpX = src[0] + diff[0];
+        int cmpY = src[1] + diff[1];
+        if (cmpX < 0 || cmpY < 0 || cmpX >= sketch.length || cmpY >= sketch[0].length)
+            continue;
+        
+        foreach (dr ; reach[sketch[cmpX][cmpY]])
         {
-            int[][] reach = reachability[c];
-            foreach (r ; reach)
+            if (dr.canFind([-1*diff[0], -1*diff[1]]))
             {
-                int[] reachableTo = cast(int[])([r[0]+i, r[1]+j]);
-                if (reachableTo[0] < 0 || reachableTo[1] < 0)
-                    continue;
-
-                if (reachableTo[0] >= sketch.length || reachableTo[1] >= row.length)
-                    continue;
-
-                char rtChar = sketch[reachableTo[0]][reachableTo[1]];
-
-                if (reachability[rtChar].canFind([r[0]*-1, r[1]*-1]))
-                    adj[i*row.length+j][reachableTo[0]*row.length+reachableTo[1]] = true;
+                srcDirs ~= diff;
             }
         }
     }
-    return adj;
+
+    foreach (c, dr ; reach)
+        if (srcDirs == dr)
+            return c;
+
+    assert(0);
 }
 
-int[] getDistances(bool[][] adj, int src)
+int[][] getPipes(char[][] sketch, int[] src, int[][][char] reach)
 {
-    int[] distances = new int[adj.length];
-    distances[] = -1;
+    int[][] pipes;
 
-    int[] q;
-    q ~= src;
+    int[] currPipe = src;
+    int[] currDiff = reach[sketch[currPipe[0]][currPipe[1]]][0];
+    pipes ~= currPipe;
+    currPipe = [currDiff[0]+src[0], currDiff[1]+src[1]];
+    int[] prevDiff = [-1*currDiff[0], -1*currDiff[1]];
 
-    distances[src] = 0;
-
-    int vis;
-    while (!q.empty)
+    while (currPipe != src)
     {
-        vis = q.front;
-        q.popFront;
+        pipes ~= currPipe;
 
-        foreach (i, v ; adj[vis])
-        {
-            if (v && distances[i] == -1)
-            {
-                q ~= cast(int) i;
-                distances[i] = cast(int)(1 + distances[vis]);
-            }
-        }
+        int[][] diffs = reach[sketch[currPipe[0]][currPipe[1]]];
+
+        currDiff = diffs[0] == prevDiff ? diffs[1] : diffs[0];
+
+        currPipe = [currPipe[0]+currDiff[0], currPipe[1]+currDiff[1]];
+
+        prevDiff = [-1*currDiff[0], -1*currDiff[1]];
     }
-
-    return distances;
+    return pipes;
 }
 
 int part1(string input)
@@ -120,25 +122,44 @@ int part1(string input)
         'J': [[-1, 0], [0, -1]],
         '7': [[1, 0], [0, -1]],
         'F': [[1, 0], [0, 1]],
-        'S': [[-1, 0], [1, 0], [0, -1], [0, 1]]
     ];
 
-    char[][] sketch = cast(char[][])(input.splitLines());
+    string[] lines = input.splitLines;
+
+    char[][] sketch;
+    foreach (line ; lines) sketch ~= line.dup;
 
     int[] src = getSource(sketch);
+    char srcType = getSrcType(sketch, src, reach);
+    sketch[src[0]][src[1]] = srcType;
 
-    auto adj = createAdjMatrix(sketch, reach);
+    int[][] pipes = getPipes(sketch, src, reach);
 
-    int srcIdx = cast(int)(src[0] * sketch[0].length + src[1]);
+    return cast(int)(pipes.length / 2);
+}
 
-    int[] distances = getDistances(adj, srcIdx);
+int countInside(char[][] sketch, int[][] pipes)
+{
+    int count = 0;
 
-    int maxDist = 0;
-    foreach (dist ; distances)
-        if (dist > maxDist)
-            maxDist = dist;
+    foreach (i, row; sketch)
+    {
+        int p = 0;
+        foreach (j, c ; row)
+        {
+            if (!pipes.canFind([i, j]))
+            {
+                if (p % 2 == 1)
+                    count++;
+                continue;
+            }
 
-    return maxDist;
+            if (['|', 'L', 'J'].canFind(c))
+                p++;
+        }
+    }
+
+    return count;
 }
 
 int part2(string input)
@@ -151,82 +172,18 @@ int part2(string input)
         'J': [[-1, 0], [0, -1]],
         '7': [[1, 0], [0, -1]],
         'F': [[1, 0], [0, 1]],
-        'S': [[-1, 0], [1, 0], [0, -1], [0, 1]]
     ];
 
-    char[][] sketch = cast(char[][])(input.splitLines());
+    string[] lines = input.splitLines;
+
+    char[][] sketch;
+    foreach (line ; lines) sketch ~= line.dup;
 
     int[] src = getSource(sketch);
+    char srcType = getSrcType(sketch, src, reach);
+    sketch[src[0]][src[1]] = srcType;
 
-    auto adj = createAdjMatrix(sketch, reach);
+    int[][] pipes = getPipes(sketch, src, reach);
 
-    int srcIdx = cast(int)(src[0] * sketch[0].length + src[1]);
-
-    int[] distances = getDistances(adj, srcIdx);
-
-    int numInsideLoop = 0;
-
-    foreach (i, row ; sketch)
-    {
-        foreach (j, c ; row)
-        {
-            if (c != '.')
-                continue;
-            
-            writeln("i, j = ", [i, j]);
-            bool[] inside;
-            for (int k = cast(int)(j+1); k < row.length; k++)
-            {   
-                writeln("right ", [i,k]);
-                int currIdx = cast(int)(i*sketch.length + k);
-                if (distances[currIdx] != -1)
-                {
-                    inside ~= true;
-                    break;
-                }
-            }
-
-            for (int k = cast(int)(j-1); k >= 0; k--)
-            {
-                writeln("left ", [i,k]);
-                int currIdx = cast(int)(i*sketch.length + k);
-                if (distances[currIdx] != -1)
-                {
-                    inside ~= true;
-                    break;
-                }
-            }
-
-            for (int k = cast(int)(i+1); k < sketch.length; k++)
-            {
-                writeln("down ", [k, j]);
-                int currIdx = cast(int)(k*sketch.length+j);
-                if (distances[currIdx] != -1)
-                {
-                    inside ~= true;
-                    break;
-                }
-            }
-
-            for (int k = cast(int)(i-1); k >=0; k--)
-            {
-                writeln("up ", [k, j]);
-                int currIdx = cast(int)(k*sketch.length+j);
-                if (distances[currIdx] != -1)
-                {
-                    inside ~= true;
-                    break;
-                }
-            }
-
-            if (inside == [true, true, true, true])
-            {
-                numInsideLoop++;
-                writeln([i, j]);
-            }
-                
-        }
-    }
-
-    return numInsideLoop;
+    return countInside(sketch, pipes);
 }
